@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Contact Us — Brandslane</title>
-<meta name="description" content="Get in touch with the Brandslane team — email, phone, or book a strategy call." />
+<title>Book a Call — Brandslane</title>
+<meta name="description" content="Book your free 30-minute strategy call with Brandslane." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -22,6 +22,7 @@ window.blTrack=function(name,params){var id;try{id=crypto.randomUUID();}catch(_)
   // try{navigator.sendBeacon('https://capi.brandslane.co/event',JSON.stringify({name:name,params:params||{},eventID:id,url:location.href,ts:Date.now()}));}catch(_){}
   return id;};
   blTrack('PageView');
+  blTrack('Lead');
 </script>
 <noscript><img height="1" width="1" style="display:none" alt=""
 src="https://www.facebook.com/tr?id=972598659845311&ev=PageView&noscript=1" /></noscript>
@@ -164,43 +165,11 @@ a.contact-value:hover{color:var(--accent);}
   </div>
 </nav>
 <main class="page-wrap">
-<div class="page-label">Get In Touch</div>
-  <h1 class="page-title">Contact Us</h1>
-  <p class="page-subtitle">We'd love to hear from you. Reach out and our team will get back to you within one business day.</p>
-
-  <div class="contact-grid">
-    <div class="contact-card">
-      <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></div>
-      <div class="contact-label">Email Us</div>
-      <a href="mailto:nik@brandslane.co" class="contact-value">nik@brandslane.co</a>
-      <a href="mailto:hello@brandslane.co" class="contact-value">hello@brandslane.co</a>
-      <div class="contact-note">We respond within 1 business day</div>
-    </div>
-    <div class="contact-card">
-      <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.27-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-      <div class="contact-label">Call Us</div>
-      <a href="tel:+919205398315" class="contact-value">+91 9205398315</a>
-      <a href="tel:+918373954312" class="contact-value">+91 8373954312</a>
-      <div class="contact-note">Mon&ndash;Fri, 9am&ndash;6pm IST</div>
-    </div>
-    <div class="contact-card">
-      <div class="contact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-      <div class="contact-label">Schedule a Call</div>
-      <a href="book-a-call.html" target="_blank" rel="noopener" class="contact-value">Book a free strategy call</a>
-      <div class="contact-note">30-minute discovery call</div>
-    </div>
-  </div>
-
-  <h2 class="section-heading">Our Offices</h2>
-  <div class="address-grid">
-    <div class="address-card">
-      <strong>India Office</strong>
-      <p>C-25, First Floor, Sector 8,<br>Gautam Buddha Nagar, Uttar Pradesh,<br>India &mdash; 201301</p>
-    </div>
-    <div class="address-card">
-      <strong>UAE, Dubai Office</strong>
-      <p>Building A1, Dubai Digital Park,<br>Dubai Silicon Oasis,<br>Dubai, United Arab Emirates</p>
-    </div>
+  <div class="page-label">Book Your Call</div>
+  <h1 class="page-title">Let's map your <span class="serif accent">growth plan</span>.</h1>
+  <p class="page-subtitle">Pick a time that works for you — a focused 30-minute discovery call. No obligation, and you'll leave with at least one growth idea you can use right away.</p>
+  <div class="cal-embed" style="margin-top:clamp(28px,4vw,44px);border:1px solid var(--hairline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);">
+    <div class="calendly-inline-widget" data-url="https://calendly.com/brandslane/scaling-discovery-edt" style="min-width:320px;height:760px;"></div>
   </div>
 </main>
 <footer class="footer inverse">
@@ -235,5 +204,14 @@ a.contact-value:hover{color:var(--accent);}
   </div>
   <div class="footer-mega" aria-hidden="true"><span class="word">Brandslane</span></div>
 </footer>
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+/* When the Calendly booking completes, redirect to the thank-you page (Schedule fires there). */
+window.addEventListener('message', function(e){
+  if (e && e.data && typeof e.data.event === 'string' && e.data.event === 'calendly.event_scheduled') {
+    window.location.href = 'typage.html';
+  }
+});
+</script>
 </body>
 </html>

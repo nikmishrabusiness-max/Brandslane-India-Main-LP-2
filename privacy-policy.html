@@ -8,6 +8,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '972598659845311');
+// Helper: fires a pixel event with a unique eventID so Phase-2 CAPI can dedupe.
+window.blTrack=function(name,params){var id;try{id=crypto.randomUUID();}catch(_){id='e'+Date.now()+'-'+Math.random().toString(16).slice(2);}fbq('track',name,params||{},{eventID:id});
+  // PHASE 2 (CAPI): forward the same event+eventID to the relay for server-side dedupe.
+  // try{navigator.sendBeacon('https://capi.brandslane.co/event',JSON.stringify({name:name,params:params||{},eventID:id,url:location.href,ts:Date.now()}));}catch(_){}
+  return id;};
+  blTrack('PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt=""
+src="https://www.facebook.com/tr?id=972598659845311&ev=PageView&noscript=1" /></noscript>
+<!-- End Meta Pixel -->
 <style>
 :root{
   --bg:#F4F1EB; --bg-2:#ECE7DD; --surface:#FFFFFF;
@@ -141,7 +159,7 @@ a.contact-value:hover{color:var(--accent);}
       <a href="index.html#services">Services</a>
     </div>
     <div class="nav-cta-group">
-      <a class="btn" href="https://home.brandslane.co/book-a-call">Scale My Brand <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      <a class="btn" href="book-a-call.html">Scale My Brand <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     </div>
   </div>
 </nav>

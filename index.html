@@ -7,6 +7,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '972598659845311');
+// Helper: fires a pixel event with a unique eventID so Phase-2 CAPI can dedupe.
+window.blTrack=function(name,params){var id;try{id=crypto.randomUUID();}catch(_){id='e'+Date.now()+'-'+Math.random().toString(16).slice(2);}fbq('track',name,params||{},{eventID:id});
+  // PHASE 2 (CAPI): forward the same event+eventID to the relay for server-side dedupe.
+  // try{navigator.sendBeacon('https://capi.brandslane.co/event',JSON.stringify({name:name,params:params||{},eventID:id,url:location.href,ts:Date.now()}));}catch(_){}
+  return id;};
+  blTrack('PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt=""
+src="https://www.facebook.com/tr?id=972598659845311&ev=PageView&noscript=1" /></noscript>
+<!-- End Meta Pixel -->
 <style>
 /* =========================================================================
    Brandslane — India Main LP (editorial, conversion-focused)
@@ -1300,7 +1318,7 @@ a { color: inherit; text-decoration: none; }
       <a href="#services">Services</a>
     </div>
     <div class="nav-cta-group">
-      <a class="btn" href="https://home.brandslane.co/book-a-call">
+      <a class="btn" href="book-a-call.html">
         Scale My Brand
         <span class="arr" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1332,7 +1350,7 @@ a { color: inherit; text-decoration: none; }
 We make brands create cultures while scaling.</p>
 
         <div class="hero-cta-row">
-          <a class="btn lg" href="https://home.brandslane.co/book-a-call">
+          <a class="btn lg" href="book-a-call.html">
             Scale My Brand
             <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           </a>
@@ -1470,7 +1488,7 @@ We make brands create cultures while scaling.</p>
     </div>
 
     <div class="center-cta">
-      <a class="btn lg" href="https://home.brandslane.co/book-a-call">
+      <a class="btn lg" href="book-a-call.html">
         Scale My Brand
         <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
@@ -1680,7 +1698,7 @@ We make brands create cultures while scaling.</p>
       </article>
     </div>
     <div class="center-cta">
-      <a class="btn lg" href="https://home.brandslane.co/book-a-call">
+      <a class="btn lg" href="book-a-call.html">
         Scale My Brand
         <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
@@ -1778,7 +1796,7 @@ We make brands create cultures while scaling.</p>
         <div class="eyebrow" style="margin-bottom:18px;"><span class="dot"></span>For DTC Founders</div>
         <h2 class="h1 dtc-test-headline">Built For What<br/><span class="nowrap"><span class="accent-word">DTC Founders</span> Need.</span></h2>
         <p class="lede" style="margin-top:18px;">From seed stage to eight figures, our framework is designed specifically for the unique challenges of the DTC space. Deploy faster, test smarter, and build a brand that lasts.</p>
-        <a class="btn lg" href="https://home.brandslane.co/book-a-call" style="margin-top:28px;">
+        <a class="btn lg" href="book-a-call.html" style="margin-top:28px;">
           Scale My Brand
           <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
@@ -1824,7 +1842,7 @@ We make brands create cultures while scaling.</p>
     <h2 class="h1">Join the 200+ brand founders we have helped grow.</h2>
     <p class="lede">30-min discovery call. No obligation. Walk out with at least one growth idea you can use today.</p>
     <div class="center-cta">
-      <a class="btn lg" href="https://home.brandslane.co/book-a-call">
+      <a class="btn lg" href="book-a-call.html">
         Scale My Brand
         <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
