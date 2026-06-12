@@ -2021,20 +2021,28 @@ We make brands create cultures while scaling.</p>
     root.addEventListener('touchstart',() => interact(2200), { passive: true });
     root.addEventListener('pointerdown',() => interact(2200));
 
-    // click-and-drag-to-scroll
-    let isDown = false, startX = 0, startScroll = 0;
+    // click-and-drag-to-scroll. Capture the pointer ONLY once a real drag starts
+    // (>5px). Capturing on pointerdown would re-target the click to the marquee and
+    // swallow taps on the play buttons inside, so plain clicks must pass through.
+    let isDown = false, dragging = false, startX = 0, startScroll = 0, pid = null;
     root.addEventListener('pointerdown', (e) => {
-      if (e.pointerType === 'mouse') {
-        isDown = true; startX = e.clientX; startScroll = root.scrollLeft;
-        root.setPointerCapture(e.pointerId);
-      }
+      if (e.pointerType !== 'mouse') return;
+      isDown = true; dragging = false; startX = e.clientX; startScroll = root.scrollLeft; pid = e.pointerId;
     });
     root.addEventListener('pointermove', (e) => {
       if (!isDown) return;
-      root.scrollLeft = startScroll - (e.clientX - startX);
+      const dx = e.clientX - startX;
+      if (!dragging && Math.abs(dx) > 5) {
+        dragging = true;
+        try { root.setPointerCapture(pid); } catch (_) {}
+      }
+      if (dragging) root.scrollLeft = startScroll - dx;
     });
-    root.addEventListener('pointerup',   () => { isDown = false; });
-    root.addEventListener('pointercancel', () => { isDown = false; });
+    root.addEventListener('pointerup', () => {
+      if (dragging) { try { root.releasePointerCapture(pid); } catch (_) {} }
+      isDown = false; dragging = false;
+    });
+    root.addEventListener('pointercancel', () => { isDown = false; dragging = false; });
 
     // seamless wrap during user scroll
     root.addEventListener('scroll', () => {
