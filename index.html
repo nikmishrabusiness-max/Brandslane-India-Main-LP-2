@@ -582,14 +582,17 @@ a { color: inherit; text-decoration: none; }
 
 .logo-grid {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--bg-2);
 }
-@media (max-width: 1100px) { .logo-grid { grid-template-columns: repeat(6, 1fr); } }
-@media (max-width: 640px)  { .logo-grid { grid-template-columns: repeat(3, 1fr); } }
+/* minmax(0,1fr) — a plain 1fr can't shrink below the cell's min-content width
+   (aspect-ratio + padding + logo height), which overflows the row and clips the
+   last column. */
+@media (max-width: 1100px) { .logo-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+@media (max-width: 640px)  { .logo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .logo-cell {
   aspect-ratio: 5/3;
   display: grid; place-items: center;
@@ -767,9 +770,13 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   overflow: hidden;
 }
-.cs-card .img img { width:100%; height:100%; object-fit: cover; }
+/* anchor to the top edge: these dashboards carry the headline revenue figure in
+   their top strip, so a centred crop slices off the whole proof point */
+.cs-card .img img { width:100%; height:100%; object-fit: cover; object-position: 50% 0; }
 .cs-card .niche {
-  position: absolute; top: 12px; left: 12px;
+  /* top-right, not top-left: every dashboard screenshot carries its own title
+     and revenue figure in the top-left corner and the badge landed on top of it */
+  position: absolute; top: 12px; right: 12px;
   padding: 5px 9px;
   background: rgba(255,255,255,0.95);
   color: #14110C;
@@ -833,7 +840,9 @@ a { color: inherit; text-decoration: none; }
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   cursor: grab;
-  touch-action: pan-x;
+  /* no touch-action:pan-x here — it forbids vertical panning, so a swipe that
+     started on the carousel couldn't scroll the page at all on touch devices.
+     The default lets the browser pick an axis from the gesture. */
 }
 .cs-marquee::-webkit-scrollbar { display: none; }
 .cs-marquee:active { cursor: grabbing; }
@@ -995,8 +1004,7 @@ a { color: inherit; text-decoration: none; }
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 3%, #000 97%, transparent 100%);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
-  cursor: grab;
+  cursor: grab;   /* see the .cs-marquee note on touch-action */
   margin-top: 22px;
   margin-bottom: 36px;
 }
@@ -1305,6 +1313,103 @@ a { color: inherit; text-decoration: none; }
 /* utilities */
 .center-cta { display: flex; justify-content: center; padding-top: clamp(32px, 4vw, 48px); }
 .flex-end { display: flex; justify-content: flex-end; }
+
+/* =========================================================================
+   MOBILE (<= 760px)
+   The layout above is sized in desktop pixels: every carousel card's clamp()
+   floor (420/360/300px) is wider than or equal to a phone viewport, so no card
+   ever fits on screen. This block gives each one a viewport-relative width and
+   trims the vertical stack. Keep it last — it wins on source order.
+   ========================================================================= */
+@media (max-width: 760px) {
+
+  /* anchors clear the 70px sticky nav */
+  section[id] { scroll-margin-top: 78px; }
+
+  .section { padding-block: 56px; }
+  .section.tight { padding-block: 44px; }
+
+  /* ---- Hero ---- */
+  /* the rotator is nowrap on desktop to keep the italic phrase on one line, but
+     the longer rotations ("All-channel growth in one place") then push the
+     headline past the viewport — an overflow that only shows on some words */
+  .rotator { white-space: normal; }
+  .hero-eyebrow { font-size: 10px; letter-spacing: 0.08em; padding: 6px 11px; }
+  .hero-stats { gap: 12px; align-items: start; }
+  .hero-stat .label { font-size: 9.5px; letter-spacing: 0.1em; }
+
+  /* ---- Logo wall ---- */
+  .logo-cell { padding: 12px; }
+  .logo-cell img { max-height: 30px; max-width: 88%; }
+  .logo-wall .head { margin-bottom: 32px; }
+
+  /* ---- Marquees: CSS-driven on mobile ----
+     The JS version scrolls scrollLeft and needs touch-action:pan-x, which stops
+     a vertical swipe that starts on the carousel from scrolling the page at all
+     — and its touchstart pause meant the drift stalled on nearly every scroll.
+     Here the track animates by transform instead, so the browser keeps both
+     axes of touch. Tap toggles pause (see the .paused class in the script). */
+  .cs-marquee, .paid-marquee, .perf-marquee {
+    overflow-x: hidden !important;
+    touch-action: auto;
+    cursor: default;
+  }
+  .cs-track, .paid-track, .perf-track {
+    gap: 0;                 /* margin-right instead, so -50% lands seamlessly */
+    will-change: transform;
+  }
+  /* ~25px/s for the two text-bearing carousels: a card takes ~13s to cross, so
+     it's still readable while in motion. The creatives are images only, so they
+     can move faster. */
+  .cs-track   { animation: marquee-x 120s linear infinite; }
+  .paid-track { animation: marquee-x 85s linear infinite; }
+  .perf-track { animation: marquee-x 75s linear infinite; }
+  .cs-track.paused, .paid-track.paused, .perf-track.paused { animation-play-state: paused; }
+
+  /* ---- Case studies ---- */
+  .cs-track .cs-card { width: min(84vw, 340px); margin-right: 14px; }
+  .cs-card .img { aspect-ratio: 16/10; }
+  .cs-card .pad { padding: 18px 18px 20px; gap: 12px; }
+  .cs-card .metric { font-size: 20px; }
+  .cs-card .desc { font-size: 13.5px; }
+  .cs-card .stats { padding-top: 14px; gap: 12px; }
+  .cs-card .stat .v { font-size: 26px; }
+
+  /* ---- Paid ads dashboards ----
+     1:1 + cover + left-align crops a wide dashboard down to its left third,
+     which is unreadable at this size. Letterbox the whole screenshot instead. */
+  .paid-track .dash-card { width: min(84vw, 340px); margin-right: 14px; }
+  .dash-card .img {
+    aspect-ratio: 16/10;
+    background: #fff;
+  }
+  .dash-card .img img { object-fit: contain; object-position: center; }
+  .dash-card .tags { min-height: 0; padding: 10px 12px; }
+
+  /* ---- Performance creatives ---- */
+  .perf-track .creative-card { width: min(62vw, 240px); margin-right: 12px; }
+  .paid-marquee, .perf-marquee { margin-top: 16px; margin-bottom: 18px; }
+  .svc-block { padding-block: 22px; }
+
+  /* ---- Founder explainer: full-bleed so it's as large as the screen allows ---- */
+  .hadwd-video-wrap { width: 100vw; margin-inline: calc(50% - 50vw); }
+  .hadwd-video-wrap .video { border-radius: 0; }
+}
+
+/* Two-up cards below 640px — single-file 4/3 images more than doubled this
+   section's height on a phone (983px on desktop, 2191px here). */
+@media (max-width: 640px) {
+  .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .why-card .pad { padding: 14px 14px 16px; gap: 8px; }
+  .why-card h3 { font-size: 15px; }
+  .why-card p { font-size: 12.5px; line-height: 1.5; }
+  .why-card .eyebrow { font-size: 9.5px; letter-spacing: 0.1em; }
+}
+
+@keyframes marquee-x {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
 </style>
 </head>
 <body>
@@ -1997,12 +2102,22 @@ We make brands create cultures while scaling.</p>
     }, { once: true });
   });
 
-  /* ---------- Generic auto-marquee + manual scroll hybrid ---------- */
+  /* ---------- Generic auto-marquee + manual scroll hybrid ----------
+     Desktop only. Below 760px the tracks animate by CSS transform instead (see
+     the mobile block in the stylesheet) so vertical page scrolling isn't blocked
+     by touch-action:pan-x; here we just stand down and let a tap toggle pause. */
+  const mqMobile = window.matchMedia('(max-width: 760px)');
+
   function setupAutoMarquee(rootSel, trackSel, speed = 30, gapPx = 0) {
     const root = document.querySelector(rootSel);
     if (!root) return;
     const track = root.querySelector(trackSel);
     if (!track) return;
+
+    // tap to pause / resume the CSS marquee (mobile)
+    root.addEventListener('click', () => {
+      if (mqMobile.matches) track.classList.toggle('paused');
+    });
 
     let userInteracting = false;
     let resumeTimer = null;
@@ -2053,6 +2168,12 @@ We make brands create cultures while scaling.</p>
     function tick(now) {
       const dt = (now - last) / 1000;
       last = now;
+      if (mqMobile.matches) {
+        // CSS owns the motion here; keep scrollLeft parked so the two don't add up
+        if (root.scrollLeft !== 0) root.scrollLeft = 0;
+        requestAnimationFrame(tick);
+        return;
+      }
       if (!userInteracting) {
         root.scrollLeft += speed * dt;
         const half = halfWidth();
