@@ -85,6 +85,24 @@ button{font:inherit;cursor:pointer;border:0;background:0;color:inherit;}
 .page-subtitle{margin:20px 0 0;font-size:clamp(15px,1.1vw,18px);line-height:1.6;color:var(--ink-2);max-width:58ch;}
 .page-meta{margin:18px 0 0;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
 
+/* Book a call — text and Calendly box mirror home.brandslane.co/book-a-call */
+.book-wrap{flex:1;width:min(1100px,92%);margin:0 auto;padding:clamp(48px,7vw,96px) 0 clamp(72px,9vw,128px);text-align:center;}
+/* Headline sizes match home.brandslane.co/book-a-call: 48px desktop, 36px tablet, 28px phone */
+.book-title{font-family:var(--f-display);font-weight:500;font-size:48px;line-height:1.1;letter-spacing:-0.028em;margin:0 auto;max-width:700px;color:var(--ink);text-wrap:balance;}
+@media (max-width:1199px){.book-title{font-size:36px;max-width:660px;}}
+@media (max-width:809px){.book-title{font-size:28px;}}
+.book-sub{margin:20px auto 0;max-width:58ch;font-size:clamp(15px,1.15vw,18px);line-height:1.6;color:var(--muted);}
+.book-sub.sub-phone{display:none;}
+.book-disclaimer{margin:22px auto 0;font-size:clamp(15px,1.3vw,19px);font-weight:500;line-height:1.5;color:var(--accent);}
+.cal-box{margin-top:clamp(28px,3.4vw,40px);padding:12px;background:var(--bg-2);border-radius:28px;}
+.cal-frame{border-radius:16px;overflow:hidden;background:var(--bg);}
+/* Heights fit Calendly's full content so nothing is cut off: stacked layout tops out at ~1167px;
+   the side-by-side layout needs a frame >= 1000px wide and 800px tall (below 800 Calendly squeezes the card). */
+.calendly-inline-widget{height:1180px;}
+@media (min-width:1120px){.calendly-inline-widget{height:800px;}}
+@media (max-width:809px){.book-sub.sub-desk{display:none;}.book-sub.sub-phone{display:block;}}
+@media (max-width:760px){.cal-box{padding:10px;border-radius:20px;}.cal-frame{border-radius:12px;}}
+
 /* Legal / policy */
 .policy-section{margin-top:clamp(34px,4vw,52px);}
 .policy-section h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,2vw,27px);line-height:1.2;letter-spacing:-0.02em;margin:0 0 16px;color:var(--ink);}
@@ -164,12 +182,15 @@ a.contact-value:hover{color:var(--accent);}
     </div>
   </div>
 </nav>
-<main class="page-wrap">
-  <div class="page-label">Book Your Call</div>
-  <h1 class="page-title">Let's map your <span class="serif accent">growth plan</span>.</h1>
-  <p class="page-subtitle">Pick a time that works for you — a focused 30-minute discovery call. No obligation, and you'll leave with at least one growth idea you can use right away.</p>
-  <div class="cal-embed" style="margin-top:clamp(28px,4vw,44px);border:1px solid var(--hairline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);">
-    <div class="calendly-inline-widget" data-url="https://calendly.com/brandslane/scaling-discovery-edt" style="min-width:320px;height:760px;"></div>
+<main class="book-wrap">
+  <h1 class="book-title">Book In Your Free 'Business Scaling Call' Below</h1>
+  <p class="book-sub sub-desk">Once your booked in, we'll be able to send you downloadable assets, resources and training prior to our call!</p>
+  <p class="book-sub sub-phone">Much faster growth in the next 3-6 months than your brand had in the last 1-2 years</p>
+  <p class="book-disclaimer">DISCLAIMER: This is NOT for you if your brand's revenue is UNDER ₹30L per month or $30,000 per month. Your call will be cancelled.</p>
+  <div class="cal-box">
+    <div class="cal-frame">
+      <div class="calendly-inline-widget" data-url="https://calendly.com/brandslane/scaling-discovery-edt"></div>
+    </div>
   </div>
 </main>
 <footer class="footer inverse">
