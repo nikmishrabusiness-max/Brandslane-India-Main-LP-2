@@ -8,6 +8,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<!-- Split test: A = the page as it was before 8 Oct 2026, B = the ₹20L disclaimer page.
+     Each visitor gets a coin flip, remembered in their browser so they always see the same version.
+     ?v=a or ?v=b forces a version (for checking). typage.html reads the same key to label the booking. -->
+<script>
+(function(){
+  var key='bl_bookpage_v', v=null, forced=/[?&]v=([ab])(&|$)/i.exec(location.search);
+  if(forced){v=forced[1].toUpperCase();}
+  else{try{v=localStorage.getItem(key);}catch(_){}}
+  if(v!=='A'&&v!=='B'){v=Math.random()<0.5?'A':'B';}
+  try{localStorage.setItem(key,v);}catch(_){}
+  window.blVariant=v;
+  document.documentElement.setAttribute('data-v',v);
+})();
+</script>
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -22,7 +36,8 @@ window.blTrack=function(name,params){var id;try{id=crypto.randomUUID();}catch(_)
   // try{navigator.sendBeacon('https://capi.brandslane.co/event',JSON.stringify({name:name,params:params||{},eventID:id,url:location.href,ts:Date.now()}));}catch(_){}
   return id;};
   blTrack('PageView');
-  blTrack('Lead');
+  blTrack('Lead',{bl_variant:window.blVariant});
+  fbq('trackCustom','BookPage'+window.blVariant,{bl_variant:window.blVariant});
 </script>
 <noscript><img height="1" width="1" style="display:none" alt=""
 src="https://www.facebook.com/tr?id=972598659845311&ev=PageView&noscript=1" /></noscript>
@@ -102,6 +117,8 @@ button{font:inherit;cursor:pointer;border:0;background:0;color:inherit;}
 @media (min-width:1120px){.calendly-inline-widget{height:800px;}}
 @media (max-width:809px){.book-sub.sub-desk{display:none;}.book-sub.sub-phone{display:block;}}
 @media (max-width:760px){.cal-box{padding:10px;border-radius:20px;}.cal-frame{border-radius:12px;}}
+/* Split test: show only the visitor's version (B if the script didn't run) */
+html[data-v="A"] .ab-b, html[data-v="B"] .ab-a, html:not([data-v]) .ab-a{display:none;}
 
 /* Legal / policy */
 .policy-section{margin-top:clamp(34px,4vw,52px);}
@@ -182,17 +199,34 @@ a.contact-value:hover{color:var(--accent);}
     </div>
   </div>
 </nav>
-<main class="book-wrap">
+<!-- Version A: the page as it was before 8 Oct 2026 (commit 5b0f9a3) -->
+<main class="page-wrap ab-a">
+  <div class="page-label">Book Your Call</div>
+  <h1 class="page-title">Let's map your <span class="serif accent">growth plan</span>.</h1>
+  <p class="page-subtitle">Pick a time that works for you — a focused 30-minute discovery call. No obligation, and you'll leave with at least one growth idea you can use right away.</p>
+  <div class="cal-embed" style="margin-top:clamp(28px,4vw,44px);border:1px solid var(--hairline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);">
+    <div class="calendly-inline-widget" data-url="https://calendly.com/brandslane/scaling-discovery-edt?utm_term=bookpage-a" style="min-width:320px;height:760px;"></div>
+  </div>
+</main>
+<!-- Version B: the 8 Oct page with the disclaimer at ₹20L -->
+<main class="book-wrap ab-b">
   <h1 class="book-title">Book In Your Free 'Business Scaling Call' Below</h1>
   <p class="book-sub sub-desk">Once your booked in, we'll be able to send you downloadable assets, resources and training prior to our call!</p>
   <p class="book-sub sub-phone">Much faster growth in the next 3-6 months than your brand had in the last 1-2 years</p>
-  <p class="book-disclaimer">DISCLAIMER: This is NOT for you if your brand's revenue is UNDER ₹30L per month or $30,000 per month. Your call will be cancelled.</p>
+  <p class="book-disclaimer">DISCLAIMER: This is NOT for you if your brand's revenue is UNDER ₹20L per month or $20,000 per month. Your call will be cancelled.</p>
   <div class="cal-box">
     <div class="cal-frame">
-      <div class="calendly-inline-widget" data-url="https://calendly.com/brandslane/scaling-discovery-edt"></div>
+      <div class="calendly-inline-widget" data-url="https://calendly.com/brandslane/scaling-discovery-edt?utm_term=bookpage-b"></div>
     </div>
   </div>
 </main>
+<script>
+/* Remove the version this visitor doesn't see, so Calendly loads only one calendar. Runs before widget.js. */
+(function(){
+  var drop=document.querySelector(window.blVariant==='A'?'.ab-b':'.ab-a');
+  if(drop) drop.parentNode.removeChild(drop);
+})();
+</script>
 <footer class="footer inverse">
   <div class="wrap">
     <div class="footer-grid">
