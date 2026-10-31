@@ -22,10 +22,7 @@ window.blTrack=function(name,params){var id;try{id=crypto.randomUUID();}catch(_)
   // try{navigator.sendBeacon('https://capi.brandslane.co/event',JSON.stringify({name:name,params:params||{},eventID:id,url:location.href,ts:Date.now()}));}catch(_){}
   return id;};
   blTrack('PageView');
-  // Split test label: the booking-page version this visitor saw (set on book-a-call.html).
-  var blVariant=null;try{blVariant=localStorage.getItem('bl_bookpage_v');}catch(_){}
-  blTrack('Schedule',blVariant?{bl_variant:blVariant}:{});
-  if(blVariant) fbq('trackCustom','Booked'+blVariant,{bl_variant:blVariant});
+  blTrack('Schedule');
 </script>
 <noscript><img height="1" width="1" style="display:none" alt=""
 src="https://www.facebook.com/tr?id=972598659845311&ev=PageView&noscript=1" /></noscript>
