@@ -167,19 +167,18 @@ a.contact-value:hover{color:var(--accent);}
 .footer-mark{font-family:var(--f-display);font-size:17px;font-weight:600;letter-spacing:-0.02em;margin:0;display:inline-flex;align-items:center;gap:8px;}
 .footer-mark::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);}
 .footer-meta{font-family:var(--f-mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
+/* Real logo (same as home.brandslane.co) instead of the "B" square */
+.wordmark img.logo-mark{width:32px;height:32px;border-radius:50%;background:none;object-fit:contain;display:block;}
+/* Booking page: logo only, centred, no divider line; headline sits higher */
+.nav.nav-solo{border-bottom:0;}
+.nav-solo .nav-inner{justify-content:center;}
+.book-wrap{padding-top:clamp(16px,2.6vw,36px);}
 </style>
 </head>
 <body>
-<nav class="nav" aria-label="Primary">
+<nav class="nav nav-solo" aria-label="Primary">
   <div class="nav-inner">
-    <a class="wordmark" href="index.html"><span class="logo-mark" aria-hidden="true">B</span>Brandslane</a>
-    <div class="nav-links">
-      <a href="index.html#case-studies">Case Studies</a>
-      <a href="index.html#services">Services</a>
-    </div>
-    <div class="nav-cta-group">
-      <a class="btn" href="book-a-call.html">Scale My Brand <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-    </div>
+    <a class="wordmark" href="index.html"><img class="logo-mark" src="Content/brand/brandslane-logo.png" alt="" aria-hidden="true" width="32" height="32" />Brandslane</a>
   </div>
 </nav>
 <main class="book-wrap">
