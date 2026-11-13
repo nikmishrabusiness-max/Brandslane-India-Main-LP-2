@@ -86,19 +86,21 @@ button{font:inherit;cursor:pointer;border:0;background:0;color:inherit;}
 .page-meta{margin:18px 0 0;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
 
 /* Book a call — text and Calendly box mirror home.brandslane.co/book-a-call */
-.book-wrap{flex:1;width:min(1100px,92%);margin:0 auto;padding:clamp(48px,7vw,96px) 0 clamp(72px,9vw,128px);text-align:center;}
+.book-wrap{flex:1;width:min(1180px,92%);margin:0 auto;padding:clamp(48px,7vw,96px) 0 clamp(72px,9vw,128px);text-align:center;}
 /* Headline sizes match home.brandslane.co/book-a-call: 48px desktop, 36px tablet, 28px phone */
 .book-title{font-family:var(--f-display);font-weight:500;font-size:48px;line-height:1.1;letter-spacing:-0.028em;margin:0 auto;max-width:700px;color:var(--ink);text-wrap:balance;}
 @media (max-width:1199px){.book-title{font-size:36px;max-width:660px;}}
 @media (max-width:809px){.book-title{font-size:28px;}}
 .book-sub{margin:20px auto 0;max-width:58ch;font-size:clamp(15px,1.15vw,18px);line-height:1.6;color:var(--muted);}
 .book-sub.sub-phone{display:none;}
-.book-disclaimer{margin:22px auto 0;font-size:clamp(15px,1.3vw,19px);font-weight:500;line-height:1.5;color:var(--accent);}
+.book-disclaimer{margin:22px auto 0;max-width:1100px;font-size:clamp(15px,1.3vw,19px);font-weight:500;line-height:1.5;color:var(--accent);}
 /* Calendly box: same clean card as the no-qualifier page (white, hairline border, 840px wide) */
 .cal-embed{max-width:840px;margin:clamp(28px,4vw,44px) auto 0;border:1px solid var(--hairline);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);}
 /* Starting heights before Calendly reports its real height (the script below then fits the box to each step) */
 .calendly-inline-widget{height:1180px;}
-@media (min-width:1120px){.calendly-inline-widget{height:800px;}}
+/* Wide screens: Calendly puts the details left and the calendar right only when its frame is >= 1120px wide
+   (measured 13 Nov 2026: 1119px stacks, 1120px side-by-side, at any height). 1122 = 1120 + the 1px borders. */
+@media (min-width:1220px){.cal-embed{max-width:1122px;}.calendly-inline-widget{height:760px;}}
 @media (max-width:809px){.book-sub.sub-desk{display:none;}.book-sub.sub-phone{display:block;}}
 
 /* Legal / policy */
