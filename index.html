@@ -262,6 +262,28 @@ a { color: inherit; text-decoration: none; }
   transition: color .15s;
 }
 .nav-links a:hover { color: var(--ink); }
+.nav-dd { position: relative; }
+.nav-dd-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); transition: color .15s; padding: 6px 0; }
+.nav-dd-btn svg { transition: transform .2s ease; }
+.nav-dd:hover .nav-dd-btn, .nav-dd.open .nav-dd-btn, .nav-dd-btn:focus-visible { color: var(--ink); }
+.nav-dd.open .nav-dd-btn svg { transform: rotate(180deg); }
+.nav-dd-menu {
+  position: absolute; top: calc(100% + 10px); left: 50%;
+  min-width: 170px; padding: 6px;
+  background: #fff; border: 1px solid var(--hairline); border-radius: 12px;
+  box-shadow: 0 12px 32px -12px rgba(20,17,12,0.22);
+  display: flex; flex-direction: column;
+  opacity: 0; visibility: hidden; transform: translate(-50%, -4px);
+  transition: opacity .15s ease, transform .15s ease, visibility 0s linear .15s;
+  z-index: 60;
+}
+.nav-dd-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -12px; height: 12px; } /* hover bridge */
+.nav-dd:not(.suppress):hover .nav-dd-menu, .nav-dd.open .nav-dd-menu {
+  opacity: 1; visibility: visible; transform: translate(-50%, 0);
+  transition: opacity .15s ease, transform .15s ease, visibility 0s;
+}
+.nav-links .nav-dd-menu a { font-size: 14px; color: var(--ink); padding: 9px 12px; border-radius: 8px; }
+.nav-links .nav-dd-menu a:hover { background: var(--bg-2); color: var(--ink); }
 .nav-cta-group { display: flex; align-items: center; gap: 14px; }
 .nav-cta-group .secondary {
   font-size: 14px;
@@ -269,6 +291,12 @@ a { color: inherit; text-decoration: none; }
 }
 .nav-cta-group .secondary:hover { color: var(--ink); }
 .nav .btn { padding: 10px 18px; font-size: 14px; }
+/* 761–900px: three menu items + the button need tighter spacing to stay on one line */
+@media (min-width: 761px) and (max-width: 900px) {
+  .nav-links { gap: 18px; }
+  .nav-inner { gap: 16px; }
+  .nav .btn { padding: 10px 14px; }
+}
 @media (max-width: 760px) {
   .nav-links { display: none; }
   .nav-cta-group .secondary { display: none; }
@@ -927,6 +955,11 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.01em;
   color: var(--ink);
 }
+/* "See more" / "See all" links in the services headers → the portfolio pages */
+.svc-block h3 a.see-more { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); white-space: nowrap; transition: color .15s; }
+.svc-block h3 a.see-more svg { transition: transform .2s ease; }
+.svc-block h3 a.see-more:hover { color: var(--accent); }
+.svc-block h3 a.see-more:hover svg { transform: translateX(3px); }
 .svc-block h3 .r {
   font-family: var(--f-mono);
   font-size: 10.5px;
@@ -1423,6 +1456,14 @@ a { color: inherit; text-decoration: none; }
     <div class="nav-links">
       <a href="#case-studies">Case Studies</a>
       <a href="#services">Services</a>
+      <!-- Portfolio dropdown: add a line per new portfolio page -->
+      <div class="nav-dd">
+        <button class="nav-dd-btn" type="button" aria-expanded="false" aria-controls="nav-portfolio-menu">Portfolio <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-dd-menu" id="nav-portfolio-menu">
+          <a href="portfolio/ads/">Ads</a>
+          <a href="portfolio/creatives/">Creatives</a>
+        </div>
+      </div>
     </div>
     <div class="nav-cta-group">
       <a class="btn" href="book-a-call.html">
@@ -1822,7 +1863,7 @@ We make brands create cultures while scaling.</p>
     </div>
 
     <div class="svc-block">
-      <h3><span class="l">Paid Ads Scaling</span><span class="r">06 Dashboards</span></h3>
+      <h3><span class="l">Paid Ads Scaling</span><a class="r see-more" href="portfolio/ads/">See more <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>
     </div>
   </div>
   <div class="paid-marquee" aria-label="Paid ads dashboards — auto-scrolling">
@@ -1844,36 +1885,60 @@ We make brands create cultures while scaling.</p>
   <div class="wrap">
 
     <div class="svc-block">
-      <h3><span class="l">Performance Creatives</span><span class="r">12 Items</span></h3>
+      <h3><span class="l">Performance Creatives</span><a class="r see-more" href="portfolio/creatives/">See all <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>
     </div>
   </div>
   <div class="perf-marquee" aria-label="Performance creatives — auto-scrolling">
     <div class="perf-track">
-        <div class="creative-card"><div class="media"><img loading="lazy" src="Content/creatives/creative-01.jpg" alt="" /></div><div class="tags"><span class="tag">Editing</span><span class="tag">AI Content</span></div></div>
-        <div class="creative-card"><div class="media"><img loading="lazy" src="Content/creatives/creative-02.jpg" alt="" /></div><div class="tags"><span class="tag">Concept</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/product-film-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/product-film-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Direction</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/festive-sale-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/festive-sale-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Editing</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/0Z5bV-B3Ssg.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/0Z5bV-B3Ssg.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Direction</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/ai-character-film-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/ai-character-film-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/Uta4ia0MGMg.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/Uta4ia0MGMg.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">AI Content</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/product-film-02.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/product-film-02.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Direction</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/7-htq3tRUQc.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/7-htq3tRUQc.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Direction</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/brand-film-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/brand-film-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Direction</span><span class="tag">Editing</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/9bUVQYkD7JU.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/9bUVQYkD7JU.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Scripting</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/educational-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/educational-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Scripting</span><span class="tag">Editing</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/QafIx-Q_u5A.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/QafIx-Q_u5A.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Concept</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/unboxing-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/unboxing-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Direction</span><span class="tag">Editing</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/Xs9tuqVrqKA.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/Xs9tuqVrqKA.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/skit-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/skit-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Scripting</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/MfNRyDwbMTg.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/MfNRyDwbMTg.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/ai-product-film-02.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/ai-product-film-02.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/YLJqSKTThgM.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/YLJqSKTThgM.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/creator-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/creator-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Scripting</span><span class="tag">Editing</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/4RtbWSKdOys.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/4RtbWSKdOys.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Direction</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/results-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/results-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Editing</span></div></div>
         <div class="creative-card"><div class="media video aspect-vertical" data-mp4="Content/videos/INh1ifu-T0o.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/INh1ifu-T0o.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Concept</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/skit-ad-02.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/skit-ad-02.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Scripting</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/ai-character-film-02.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/ai-character-film-02.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/stop-motion-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/stop-motion-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Direction</span></div></div>
 
-        <div class="creative-card" aria-hidden="true"><div class="media"><img loading="lazy" src="Content/creatives/creative-01.jpg" alt="" /></div><div class="tags"><span class="tag">Editing</span><span class="tag">AI Content</span></div></div>
-        <div class="creative-card" aria-hidden="true"><div class="media"><img loading="lazy" src="Content/creatives/creative-02.jpg" alt="" /></div><div class="tags"><span class="tag">Concept</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/product-film-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/product-film-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Direction</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/festive-sale-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/festive-sale-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Editing</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/0Z5bV-B3Ssg.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/0Z5bV-B3Ssg.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Direction</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/ai-character-film-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/ai-character-film-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/Uta4ia0MGMg.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/Uta4ia0MGMg.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">AI Content</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/product-film-02.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/product-film-02.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Direction</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/7-htq3tRUQc.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/7-htq3tRUQc.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Direction</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/brand-film-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/brand-film-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Direction</span><span class="tag">Editing</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/9bUVQYkD7JU.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/9bUVQYkD7JU.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Scripting</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/educational-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/educational-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Scripting</span><span class="tag">Editing</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/QafIx-Q_u5A.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/QafIx-Q_u5A.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Concept</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/unboxing-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/unboxing-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Direction</span><span class="tag">Editing</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/Xs9tuqVrqKA.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/Xs9tuqVrqKA.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/skit-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/skit-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Scripting</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/MfNRyDwbMTg.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/MfNRyDwbMTg.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/ai-product-film-02.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/ai-product-film-02.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/YLJqSKTThgM.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/YLJqSKTThgM.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/creator-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/creator-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Scripting</span><span class="tag">Editing</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/4RtbWSKdOys.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/4RtbWSKdOys.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Direction</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/results-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/results-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Editing</span></div></div>
         <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="Content/videos/INh1ifu-T0o.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/videos/INh1ifu-T0o.jpg" alt="" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Editing</span><span class="tag">Concept</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/skit-ad-02.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/skit-ad-02.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Scripting</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/ai-character-film-02.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/ai-character-film-02.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">AI Content</span><span class="tag">Editing</span></div></div>
+        <div class="creative-card" aria-hidden="true"><div class="media video aspect-vertical" data-mp4="portfolio/creatives/media/stop-motion-ad-01.mp4" style="aspect-ratio:9/16;"><img class="thumb" src="Content/creatives/posters/stop-motion-ad-01.jpg" alt="" loading="lazy" /><span class="play"><span class="tri"></span> Play</span></div><div class="tags"><span class="tag">Concept</span><span class="tag">Direction</span></div></div>
     </div>
   </div>
 </section>
@@ -2035,6 +2100,21 @@ We make brands create cultures while scaling.</p>
     };
     setInterval(swap, 2800);
   }
+
+
+  /* ---------- Nav: Portfolio dropdown ---------- */
+  (function () {
+    var dd = document.querySelector('.nav-dd'); if (!dd) return;
+    var btn = dd.querySelector('.nav-dd-btn');
+    function set(open) { dd.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    // a click/Escape that closes it also hides the hover preview until the pointer leaves
+    function close() { set(false); dd.classList.add('suppress'); }
+    btn.addEventListener('click', function (e) { e.stopPropagation(); if (dd.classList.contains('open')) close(); else { dd.classList.remove('suppress'); set(true); } });
+    dd.addEventListener('mouseleave', function () { dd.classList.remove('suppress'); });
+    dd.addEventListener('focusout', function (e) { if (!dd.contains(e.relatedTarget)) set(false); });
+    document.addEventListener('click', function (e) { if (!dd.contains(e.target)) set(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && (dd.classList.contains('open') || dd.matches(':hover'))) { close(); btn.focus(); } });
+  })();
 
   /* ---------- Click-to-play videos (hero, explainer, performance creatives) ---------- */
   document.addEventListener('click', (e) => {
