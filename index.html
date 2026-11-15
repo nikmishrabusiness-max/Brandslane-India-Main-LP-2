@@ -1072,11 +1072,11 @@ a { color: inherit; text-decoration: none; }
 }
 .paid-track .dash-card {
   flex: 0 0 auto;
-  width: clamp(360px, 30vw, 520px);
+  width: clamp(320px, 26.5vw, 460px);   /* ~12% smaller (Nik, 15 Nov) */
 }
 .perf-track .creative-card {
   flex: 0 0 auto;
-  width: clamp(300px, 25.5vw, 390px);
+  width: clamp(260px, 22.5vw, 340px);   /* ~12% smaller (Nik, 15 Nov) */
 }
 
 /* =========================================================================
@@ -1415,8 +1415,8 @@ a { color: inherit; text-decoration: none; }
      it's still readable while in motion. The creatives are images only, so they
      can move faster. */
   .cs-track   { animation: marquee-x 120s linear infinite; }
-  .paid-track { animation: marquee-x 85s linear infinite; }
-  .perf-track { animation: marquee-x 75s linear infinite; }
+  .paid-track { animation: marquee-x 60s linear infinite; }   /* +25% speed on a ~11% shorter track */
+  .perf-track { animation: marquee-x 67s linear infinite; }   /* same speed on a ~11% shorter track */
   .cs-track.paused, .paid-track.paused, .perf-track.paused { animation-play-state: paused; }
 
   /* ---- Case studies ---- */
@@ -1431,7 +1431,7 @@ a { color: inherit; text-decoration: none; }
   /* ---- Paid ads dashboards ----
      1:1 + cover + left-align crops a wide dashboard down to its left third,
      which is unreadable at this size. Letterbox the whole screenshot instead. */
-  .paid-track .dash-card { width: min(84vw, 340px); margin-right: 14px; }
+  .paid-track .dash-card { width: min(76vw, 300px); margin-right: 14px; }
   .dash-card .img {
     aspect-ratio: 16/10;
     background: #fff;
@@ -1440,7 +1440,7 @@ a { color: inherit; text-decoration: none; }
   .dash-card .tags { min-height: 0; padding: 10px 12px; }
 
   /* ---- Performance creatives ---- */
-  .perf-track .creative-card { width: min(62vw, 240px); margin-right: 12px; }
+  .perf-track .creative-card { width: min(55vw, 212px); margin-right: 12px; }
   .paid-marquee, .perf-marquee { margin-top: 16px; margin-bottom: 18px; }
   .svc-block { padding-block: 22px; }
 
@@ -1611,6 +1611,16 @@ We make brands create cultures while scaling.</p>
       <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-25.png" alt="" /></div>
       <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-26.png" alt="" /></div>
       <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-27.webp" alt="" /></div>
+      <!-- row 4 (15 Nov): Pink Moon, Label Aarna, Tezzo, Argos Watches, Prakrithi by Ramya, Woke Collection, LoveGen, Chowkhat, Mahila -->
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-28.webp" alt="" /></div>
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-29.webp" alt="" /></div>
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-30.webp" alt="" /></div>
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-31.svg" alt="" /></div>
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-32.webp" alt="" /></div>
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-33.webp" alt="" /></div>
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-34.webp" alt="" /></div>
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-35.webp" alt="" /></div>
+      <div class="logo-cell"><img loading="lazy" src="Content/logos/logo-36.webp" alt="" /></div>
     </div>
 
     <div class="partner-divider" aria-hidden="false">
@@ -2292,7 +2302,7 @@ We make brands create cultures while scaling.</p>
   // Reels use a pure-CSS continuous marquee (see .reels-track animation); the
   // others use the JS scroll-hybrid below.
   setupAutoMarquee('.cs-marquee', '.cs-track', 30, 20);
-  setupAutoMarquee('.paid-marquee', '.paid-track', 28, 16);
+  setupAutoMarquee('.paid-marquee', '.paid-track', 35, 16);   // was 28 px/s (Nik, 15 Nov: a little faster)
   setupAutoMarquee('.perf-marquee', '.perf-track', 32, 16);
 })();
 </script>
