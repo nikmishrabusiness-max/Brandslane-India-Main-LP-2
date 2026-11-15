@@ -1,0 +1,143 @@
+/* =========================================================================
+   Brandslane Careers — shared styles for /careers and every role page.
+   Tokens, nav, buttons and footer are copied from the hello.brandslane.co
+   pages (contact-us.html). Edit here once; every role page picks it up.
+   ========================================================================= */
+:root{
+  --bg:#FFFFFF; --bg-2:#F5F5F4; --surface:#FFFFFF;
+  --ink:#14110C; --ink-2:#2A241B; --muted:rgba(20,17,12,0.62);
+  --hairline:rgba(20,17,12,0.12); --hairline-strong:rgba(20,17,12,0.22);
+  --accent:#E5482A; --accent-ink:#FFFFFF;
+  --inverse-bg:#14110C; --inverse-bg-2:#1B1813; --inverse-ink:#F4F1EB;
+  --inverse-muted:rgba(244,241,235,0.6); --inverse-hairline:rgba(244,241,235,0.12);
+  --f-display:"Geist","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --f-serif:"Instrument Serif","Times New Roman",serif;
+  --f-ui:"Geist","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --f-mono:"JetBrains Mono","SFMono-Regular",ui-monospace,monospace;
+  --radius:12px; --radius-lg:18px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;}
+main{flex:1;}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;cursor:pointer;border:0;background:0;color:inherit;}
+.wrap{width:80%;max-width:1240px;margin:0 auto;}
+@media (max-width:760px){.wrap{width:92%;}}
+.serif{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:-0.01em;}
+.serif.accent{color:var(--accent);}
+[id]{scroll-margin-top:84px;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;background:var(--accent);color:var(--accent-ink);border-radius:10px;font-weight:500;font-size:15px;letter-spacing:-0.005em;transition:transform .2s ease,background .2s ease,box-shadow .2s ease;}
+.btn .arr{display:inline-flex;transition:transform .25s ease;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px -10px rgba(229,72,42,0.5);}
+.btn:hover .arr{transform:translateX(3px);}
+.btn.lg{padding:16px 26px;font-size:16px;}
+
+/* Nav */
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);background:color-mix(in oklab,var(--bg) 82%,transparent);border-bottom:1px solid var(--hairline);}
+.nav-inner{width:80%;max-width:1240px;margin:0 auto;padding:14px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+@media (max-width:760px){.nav-inner{width:92%;}}
+.wordmark{font-family:var(--f-display);font-size:19px;font-weight:600;letter-spacing:-0.02em;display:inline-flex;align-items:center;gap:9px;}
+.wordmark img.logo-mark{width:32px;height:32px;border-radius:50%;object-fit:contain;display:block;}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{font-size:14px;color:var(--muted);transition:color .15s;}
+.nav-links a:hover{color:var(--ink);}
+.nav .btn{padding:10px 18px;font-size:14px;}
+@media (max-width:760px){.nav-links{display:none;}}
+
+/* Shared type bits */
+/* plain-text facts line ("Noida · Full-time · 4+ years") — used instead of pill chips */
+.meta-line{display:flex;flex-wrap:wrap;row-gap:4px;margin:0;font-size:15px;line-height:1.5;color:var(--muted);}
+.meta-line span{white-space:nowrap;}
+.meta-line span:not(:last-child)::after{content:"·";margin:0 10px;color:var(--hairline-strong);}
+
+/* =========================================================================
+   Role cover — typographic panel used on the role cards and the role page
+   (same idea as the reference's per-role cover image, no image files needed).
+   Font sizes are in container units so one component scales to both sizes.
+   ========================================================================= */
+.cover{position:relative;container-type:inline-size;aspect-ratio:16/8.4;border-radius:var(--radius-lg);overflow:hidden;background:
+  radial-gradient(120% 90% at 50% 125%,rgba(229,72,42,0.42),transparent 60%),
+  linear-gradient(rgba(244,241,235,0.05) 1px,transparent 1px) 0 0/28px 28px,
+  linear-gradient(90deg,rgba(244,241,235,0.05) 1px,transparent 1px) 0 0/28px 28px,
+  var(--inverse-bg);
+  color:var(--inverse-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.cover .brand{position:absolute;top:5.5cqi;left:6cqi;font-family:var(--f-display);font-weight:600;font-size:max(12px,3cqi);letter-spacing:-0.01em;display:inline-flex;align-items:center;gap:.5em;}
+.cover .brand::before{content:"";width:.45em;height:.45em;border-radius:50%;background:var(--accent);}
+.cover .t1{font-family:var(--f-display);font-weight:500;font-size:9.4cqi;line-height:1;letter-spacing:-0.03em;}
+.cover .t2{font-family:var(--f-serif);font-style:italic;font-weight:400;font-size:10.6cqi;line-height:1.05;color:var(--accent);letter-spacing:-0.01em;}
+
+/* =========================================================================
+   /careers — centred hero + role cards
+   ========================================================================= */
+.c-hero{padding:clamp(56px,8vw,104px) 0 clamp(40px,5vw,64px);text-align:center;}
+.c-title{font-family:var(--f-display);font-weight:500;font-size:clamp(34px,4.6vw,58px);line-height:1.08;letter-spacing:-0.025em;margin:0 auto;max-width:20ch;text-wrap:balance;}
+.c-title .serif{display:block;font-size:1.08em;line-height:1.05;}
+.c-sub{margin:20px auto 0;font-size:clamp(15px,1.1vw,17px);line-height:1.6;color:var(--muted);max-width:54ch;}
+
+.roles{padding:0 0 clamp(80px,10vw,140px);}
+.role-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:28px;max-width:1080px;margin:0 auto;}
+.role-card{flex:0 1 calc(50% - 14px);background:var(--surface);border:1px solid var(--hairline);border-radius:22px;padding:10px;display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+.role-card:hover{transform:translateY(-4px);border-color:var(--hairline-strong);box-shadow:0 22px 44px -26px rgba(20,17,12,0.28);}
+.role-card .cover{border-radius:14px;}
+.role-card-body{padding:22px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.role-title{font-family:var(--f-display);font-weight:500;font-size:clamp(19px,1.6vw,22px);letter-spacing:-0.015em;line-height:1.2;margin:0;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.role-title .go{display:inline-flex;color:var(--muted);transition:color .2s,transform .25s;}
+.role-card:hover .role-title .go{color:var(--accent);transform:translateX(3px);}
+.role-summary{margin:0;font-size:15px;line-height:1.55;color:var(--muted);}
+.role-card .meta-line{margin-top:6px;font-size:14px;}
+@media (max-width:760px){.role-card{flex-basis:100%;}}
+
+/* =========================================================================
+   Role page — one centred reading column
+   ========================================================================= */
+.r-col{width:min(800px,92%);margin:0 auto;}
+.r-head{padding:clamp(32px,5vw,64px) 0 0;}
+.back{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;color:var(--muted);transition:color .15s,gap .2s;}
+.back:hover{color:var(--ink);gap:11px;}
+.r-title{font-family:var(--f-display);font-weight:500;font-size:clamp(34px,4.4vw,52px);line-height:1.06;letter-spacing:-0.028em;margin:22px 0 0;}
+.r-head .meta-line{margin-top:14px;}
+.r-sub{margin:20px 0 0;font-size:clamp(15.5px,1.15vw,17.5px);line-height:1.65;color:var(--muted);}
+.r-head .cover{margin-top:clamp(24px,3vw,32px);}
+
+.jd{padding:clamp(16px,2vw,24px) 0 0;}
+.jd-sec{padding-top:clamp(36px,4vw,52px);}
+.jd-sec h2{font-family:var(--f-display);font-weight:500;font-size:clamp(24px,2.5vw,32px);letter-spacing:-0.022em;line-height:1.15;margin:0 0 16px;}
+.jd-body p{margin:0 0 14px;font-size:16.5px;line-height:1.75;color:var(--ink-2);}
+.jd-body p:last-child{margin-bottom:0;}
+.jd-body strong{color:var(--ink);font-weight:600;}
+.jd-body ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.jd-body ul li{position:relative;padding-left:24px;font-size:16.5px;line-height:1.65;color:var(--ink-2);}
+.jd-body ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:2px;background:var(--accent);}
+.jd-body h3{font-family:var(--f-display);font-weight:600;font-size:17px;letter-spacing:-0.005em;margin:26px 0 10px;color:var(--ink);}
+.jd-body h3:first-child{margin-top:0;}
+
+.apply{padding:clamp(48px,6vw,80px) 0 clamp(72px,9vw,120px);text-align:center;}
+.apply-inner{border-top:1px solid var(--hairline);padding-top:clamp(40px,5vw,56px);}
+.apply-note{display:block;margin-top:16px;font-size:14px;line-height:1.55;color:var(--muted);}
+
+/* =========================================================================
+   Footer (same as the hello.brandslane.co pages)
+   ========================================================================= */
+.inverse{background:var(--inverse-bg);color:var(--inverse-ink);--bg:var(--inverse-bg);--bg-2:var(--inverse-bg-2);--surface:var(--inverse-bg-2);--ink:var(--inverse-ink);--ink-2:var(--inverse-ink);--muted:var(--inverse-muted);--hairline:var(--inverse-hairline);--hairline-strong:rgba(244,241,235,0.22);}
+.footer{border-top:1px solid var(--hairline);padding-block:32px 0;overflow:hidden;}
+.footer .wrap{max-width:none;}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:28px;margin-bottom:20px;}
+@media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.footer-grid{grid-template-columns:1fr;}}
+.footer h5{font-family:var(--f-mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin:0 0 10px 0;font-weight:500;}
+.footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;}
+.footer ul a,.footer-addr{color:var(--ink);font-size:13px;line-height:1.5;}
+.footer ul a:hover{color:var(--accent);}
+.footer-addr{font-style:normal;}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:14px;border-top:1px solid var(--hairline);flex-wrap:wrap;}
+.footer-mega{position:relative;width:70%;max-width:1100px;margin:clamp(28px,4vw,48px) auto 0;overflow:hidden;pointer-events:none;user-select:none;text-align:center;height:clamp(64px,10.6vw,168px);display:flex;align-items:flex-start;justify-content:center;}
+.footer-mega .word{font-family:var(--f-display);font-weight:600;font-size:clamp(56px,11.6vw,190px);line-height:1;letter-spacing:-0.04em;color:rgba(244,241,235,0.09);display:inline-block;white-space:nowrap;transform:translateY(-2%);}
+@media (max-width:760px){.footer-mega{width:88%;height:15vw;}.footer-mega .word{font-size:16vw;}}
+.footer-mark{font-family:var(--f-display);font-size:17px;font-weight:600;letter-spacing:-0.02em;margin:0;display:inline-flex;align-items:center;gap:8px;}
+.footer-mark::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);}
+.footer-meta{font-family:var(--f-mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
