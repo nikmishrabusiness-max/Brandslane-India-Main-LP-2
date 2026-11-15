@@ -96,6 +96,25 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;paddin
 .nav-links .nav-dd-menu a[aria-current="page"]{font-weight:600;}
 .nav .btn{padding:10px 18px;font-size:14px;}
 @media (max-width:760px){.nav-inner{width:92%;}.nav-links{display:none;}}
+
+/* Phones (<=760px): the top Scale My Brand button gives way to a Menu holding every nav link,
+   with Scale My Brand at the bottom of the panel (Nik, 15 Nov). Desktop is unchanged. */
+.nav-menu-btn, .nav .nav-links .nav-menu-cta { display: none; }
+@media (max-width: 760px) {
+  .nav-inner { position: relative; }
+  .nav .nav-top-cta { display: none; }
+  .nav-menu-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border: 1px solid var(--hairline-strong); border-radius: 10px; background: #fff; font-size: 14px; font-weight: 500; color: var(--ink); }
+  .nav-menu-btn svg { transition: transform .2s ease; }
+  .nav.menu-open .nav-menu-btn svg { transform: rotate(180deg); }
+  .nav .nav-links { display: none; position: absolute; top: calc(100% + 6px); right: 0; width: min(290px, 100%); flex-direction: column; align-items: stretch; gap: 0; padding: 8px; background: #fff; border: 1px solid var(--hairline); border-radius: 12px; box-shadow: 0 12px 32px -12px rgba(20,17,12,0.22); z-index: 60; }
+  .nav.menu-open .nav-links { display: flex; }
+  .nav .nav-links > a:not(.btn), .nav .nav-links .nav-dd .nav-dd-menu a { font-size: 16px; color: var(--ink); padding: 11px 12px; border-radius: 8px; }
+  .nav .nav-links > a:not(.btn):hover, .nav .nav-links .nav-dd .nav-dd-menu a:hover { background: var(--bg-2); }
+  .nav .nav-links .nav-dd .nav-dd-btn { display: none; }
+  .nav .nav-links .nav-dd .nav-dd-menu { position: static; left: auto; opacity: 1; visibility: visible; transform: none; transition: none; min-width: 0; margin-top: 4px; padding: 4px 0 0; border: 0; border-top: 1px solid var(--hairline); border-radius: 0; box-shadow: none; background: none; }
+  .nav .nav-links .nav-dd .nav-dd-menu::before { content: "Portfolio"; position: static; display: block; height: auto; padding: 10px 12px 4px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .nav .nav-links .nav-menu-cta { display: flex; justify-content: center; margin-top: 8px; padding: 12px 18px; font-size: 15px; color: var(--accent-ink); }
+}
 /* Scale My Brand under the last item, still on white */
 .grid-cta{display:flex;justify-content:center;margin-top:clamp(40px,5vw,64px);}
 .wordmark{font-size:19px;font-weight:600;letter-spacing:-0.02em;display:inline-flex;align-items:center;gap:9px;}
@@ -201,7 +220,7 @@ body.locked{overflow:hidden;}
 <nav class="nav" aria-label="Primary">
   <div class="nav-inner">
     <a class="wordmark" href="../../"><img src="../../Content/brand/brandslane-logo.png" alt="" aria-hidden="true" width="32" height="32" />Brandslane</a>
-    <div class="nav-links">
+    <div class="nav-links" id="nav-links">
       <a href="../../">Home</a>
       <!-- Portfolio dropdown: add a line per new portfolio page (and on the homepage) -->
       <div class="nav-dd">
@@ -211,8 +230,10 @@ body.locked{overflow:hidden;}
           <a href="../creatives/" aria-current="page">Creatives</a>
         </div>
       </div>
+      <a class="btn nav-menu-cta" href="../../book-a-call.html">Scale My Brand <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     </div>
-    <a class="btn" href="../../book-a-call.html">
+    <button class="nav-menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menu <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <a class="btn nav-top-cta" href="../../book-a-call.html">
       Scale My Brand
       <span class="arr" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </a>
@@ -533,6 +554,18 @@ body.locked{overflow:hidden;}
   dd.addEventListener('focusout', function (e) { if (!dd.contains(e.relatedTarget)) set(false); });
   document.addEventListener('click', function (e) { if (!dd.contains(e.target)) set(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && (dd.classList.contains('open') || dd.matches(':hover'))) { close(); btn.focus(); } });
+})();
+</script>
+<script>
+/* Phones: Menu button opens the nav panel; closes on a link, outside tap, Escape, or going wide */
+(function () {
+  var nav = document.querySelector('.nav'), mb = nav && nav.querySelector('.nav-menu-btn'); if (!mb) return;
+  function set(open) { nav.classList.toggle('menu-open', open); mb.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  mb.addEventListener('click', function (e) { e.stopPropagation(); set(!nav.classList.contains('menu-open')); });
+  nav.querySelector('.nav-links').addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', function (e) { if (!nav.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('menu-open')) { set(false); mb.focus(); } });
+  var wide = window.matchMedia('(min-width: 761px)'); if (wide.addEventListener) wide.addEventListener('change', function (m) { if (m.matches) set(false); });
 })();
 </script>
 </body>
