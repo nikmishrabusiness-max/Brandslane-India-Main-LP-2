@@ -11,6 +11,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <!-- Meta Pixel -->
 <script>
+// Local previews (localhost / 127.x / file:) get a do-nothing fbq, so the loader below exits early and testing
+// never adds fake PageViews or leads to the account. blTrack() keeps working. Live site: unchanged.
+(function (h) { if (location.protocol === 'file:' || h === 'localhost' || h === '0.0.0.0' || h === '[::1]' || /^127\./.test(h)) {
+  window.fbq = function () {}; window.fbq.queue = []; window._fbq = window.fbq; } })(location.hostname);
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
@@ -141,8 +145,10 @@ a { color: inherit; text-decoration: none; }
 /* =========================================================================
    Layout
    ========================================================================= */
+/* Content width: Neuroid's layout (max 1280px, at least 56px each side) wherever that's wider than our old 80%,
+   so laptops get slimmer side margins and big screens stay as they were (Nik, 16 Nov). Phones keep 92%. */
 .wrap {
-  width: 80%;
+  width: max(80%, min(1280px, 100% - 112px));
   max-width: none;
   margin: 0 auto;
   padding-inline: 0;
@@ -230,7 +236,7 @@ a { color: inherit; text-decoration: none; }
 }
 .nav.scrolled { border-bottom-color: var(--hairline); }
 .nav-inner {
-  width: 80%;
+  width: max(80%, min(1280px, 100% - 112px));
   max-width: none;
   margin: 0 auto;
   padding: 14px 0;
@@ -540,7 +546,7 @@ a { color: inherit; text-decoration: none; }
    ========================================================================= */
 .reels-section { padding-bottom: clamp(48px, 6vw, 80px); }
 .reels-section .section-head {
-  width: 80%;
+  width: max(80%, min(1280px, 100% - 112px));
   margin-left: auto;
   margin-right: auto;
   padding-inline: 0;
@@ -564,6 +570,10 @@ a { color: inherit; text-decoration: none; }
   will-change: transform;
 }
 .reels-marquee:hover .reels-track { animation-play-state: paused; }
+/* Drifting dots behind the hero + reels strip. isolation keeps the canvas (z-index -1)
+   above the page background but under every section's content. */
+.dots-zone { position: relative; isolation: isolate; }
+.dots-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 @keyframes reels-scroll {
   from { transform: translate3d(0, 0, 0); }
   to   { transform: translate3d(-50%, 0, 0); }
@@ -836,17 +846,17 @@ a { color: inherit; text-decoration: none; }
   border-radius: 4px;
   font-weight: 500;
 }
-.cs-card .pad { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.cs-card .pad { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
 .cs-card .metric {
   font-family: var(--f-display);
-  font-size: clamp(22px, 1.9vw, 28px);
+  font-size: clamp(19px, 1.6vw, 24px);
   line-height: 1.2;
   letter-spacing: -0.02em;
   font-weight: 600;
   margin: 0;
 }
 .cs-card .desc {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--muted);
   line-height: 1.55;
   margin: 0;
@@ -855,13 +865,13 @@ a { color: inherit; text-decoration: none; }
   margin-top: auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  gap: 14px;
-  padding-top: 18px;
+  gap: 12px;
+  padding-top: 15px;
   border-top: 1px solid var(--hairline);
 }
 .cs-card .stat .v {
   font-family: var(--f-display);
-  font-size: clamp(32px, 2.6vw, 40px);
+  font-size: clamp(27px, 2.2vw, 34px);
   font-weight: 600;
   color: inherit;
   line-height: 1;
@@ -903,8 +913,8 @@ a { color: inherit; text-decoration: none; }
 }
 .cs-track .cs-card {
   flex: 0 0 auto;
-  /* ~3 cards visible at a time on standard widescreen */
-  width: clamp(420px, 30vw, 560px);
+  /* ~3.5 cards visible on a standard widescreen; ~17% smaller than before (Nik, 16 Nov) */
+  width: clamp(350px, 25vw, 470px);
 }
 
 /* =========================================================================
@@ -1078,7 +1088,7 @@ a { color: inherit; text-decoration: none; }
 }
 .perf-track .creative-card {
   flex: 0 0 auto;
-  width: clamp(260px, 22.5vw, 340px);   /* ~12% smaller (Nik, 15 Nov) */
+  width: clamp(220px, 19vw, 290px);   /* smaller again (Nik, 15 + 16 Nov) */
 }
 
 /* =========================================================================
@@ -1416,13 +1426,13 @@ a { color: inherit; text-decoration: none; }
   /* ~25px/s for the two text-bearing carousels: a card takes ~13s to cross, so
      it's still readable while in motion. The creatives are images only, so they
      can move faster. */
-  .cs-track   { animation: marquee-x 120s linear infinite; }
+  .cs-track   { animation: marquee-x 106s linear infinite; }   /* same speed on the shorter track */
   .paid-track { animation: marquee-x 60s linear infinite; }   /* +25% speed on a ~11% shorter track */
-  .perf-track { animation: marquee-x 67s linear infinite; }   /* same speed on a ~11% shorter track */
+  .perf-track { animation: marquee-x 57s linear infinite; }   /* same speed on the shorter track */
   .cs-track.paused, .paid-track.paused, .perf-track.paused { animation-play-state: paused; }
 
   /* ---- Case studies ---- */
-  .cs-track .cs-card { width: min(84vw, 340px); margin-right: 14px; }
+  .cs-track .cs-card { width: min(78vw, 300px); margin-right: 14px; }
   .cs-card .img { aspect-ratio: 16/10; }
   .cs-card .pad { padding: 18px 18px 20px; gap: 12px; }
   .cs-card .metric { font-size: 20px; }
@@ -1442,7 +1452,7 @@ a { color: inherit; text-decoration: none; }
   .dash-card .tags { min-height: 0; padding: 10px 12px; }
 
   /* ---- Performance creatives ---- */
-  .perf-track .creative-card { width: min(55vw, 212px); margin-right: 12px; }
+  .perf-track .creative-card { width: min(47vw, 180px); margin-right: 12px; }
   .paid-marquee, .perf-marquee { margin-top: 16px; margin-bottom: 18px; }
   .svc-block { padding-block: 22px; }
 
@@ -1500,6 +1510,9 @@ a { color: inherit; text-decoration: none; }
   </div>
 </nav>
 
+<!-- Drifting-dots background behind the hero + reels strip (from ai-advertising-system.html), 15 Nov -->
+<div class="dots-zone">
+<canvas class="dots-canvas" aria-hidden="true"></canvas>
 <!-- 1. HERO -->
 <section id="hero" class="hero">
   <div class="wrap">
@@ -1578,6 +1591,7 @@ We make brands create cultures while scaling.</p>
     </div>
   </div>
 </section>
+</div><!-- /dots-zone -->
 
 <!-- 3. LOGO WALL -->
 <section class="section logo-wall">
@@ -2318,6 +2332,47 @@ We make brands create cultures while scaling.</p>
   document.addEventListener('click', function (e) { if (!nav.contains(e.target)) set(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('menu-open')) { set(false); mb.focus(); } });
   var wide = window.matchMedia('(min-width: 761px)'); if (wide.addEventListener) wide.addEventListener('change', function (m) { if (m.matches) set(false); });
+})();
+</script>
+<script>
+/* Drifting dots (same look as ai-advertising-system.html: 280 dots over its 1440x1188 hero).
+   Count follows the area so density matches; pauses off-screen and in background tabs. */
+(function () {
+  var zone = document.querySelector('.dots-zone'), canvas = zone && zone.querySelector('.dots-canvas');
+  if (!canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d'), W = 0, H = 0, ps = [], raf = 0, visible = true;
+  var DENSITY = 280 / (1440 * 1188);
+  function make() {
+    return { x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+             r: Math.random() * 1.4 + 0.4, alpha: Math.random() * 0.3 + 0.08 };
+  }
+  function resize() {
+    var w = canvas.offsetWidth, h = canvas.offsetHeight; if (!w || !h) return;
+    if (W && H) ps.forEach(function (p) { p.x *= w / W; p.y *= h / H; });   // keep the spread even when the zone grows
+    W = canvas.width = w; H = canvas.height = h;
+    var n = Math.round(W * H * DENSITY);
+    while (ps.length < n) ps.push(make());
+    if (ps.length > n) ps.length = n;
+  }
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(20,20,20,' + p.alpha + ')'; ctx.fill();
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function run() { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(tick); }
+  function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+  resize();
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(zone); else window.addEventListener('resize', resize);
+  if (window.IntersectionObserver) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; visible ? run() : stop(); }).observe(zone);
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : run(); });
+  run();
 })();
 </script>
 </body>
